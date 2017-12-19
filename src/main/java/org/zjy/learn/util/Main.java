@@ -38,11 +38,12 @@ public class Main {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private static Class<Runnable> scanRunnableClasses(String packageName) {
         Reflections reflections = new Reflections(packageName);
         Set<Class<?>> classesList = reflections.getTypesAnnotatedWith(Application.class);
         Class<Runnable> latestClass = null;
-        long timeStamp = 0;
+        Date timeStamp = new Date(0);
         for (Class runnableClass : classesList) {
             Application appAnnotation = null;
             for (Annotation annotation : runnableClass.getAnnotations()) {
@@ -57,8 +58,10 @@ public class Main {
                     logger.warning("Can not parse time: " + appAnnotation.time());
                     continue;
                 }
-                if (date.getTime() > timeStamp && Runnable.class.isAssignableFrom(runnableClass)) {
+                if (date.after(timeStamp) && Runnable.class.isAssignableFrom(runnableClass)) {
                     latestClass = runnableClass;
+                    timeStamp = date;
+
                 }
             }
         }
