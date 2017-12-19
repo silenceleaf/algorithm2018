@@ -22,6 +22,10 @@ public class Main {
 
     public static void main(String[] args) {
         Class<Runnable> latestAppClass = scanRunnableClasses("org.zjy.learn.code");
+        if (latestAppClass == null) {
+            logger.warning("no runnable class found!");
+            return;
+        }
         logger.info("runnable class: " + latestAppClass.getCanonicalName());
         try {
             Runnable runnableApplication = latestAppClass.newInstance();
@@ -34,7 +38,6 @@ public class Main {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private static Class<Runnable> scanRunnableClasses(String packageName) {
         Reflections reflections = new Reflections(packageName);
         Set<Class<?>> classesList = reflections.getTypesAnnotatedWith(Application.class);

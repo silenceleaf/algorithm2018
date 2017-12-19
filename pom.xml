@@ -5,7 +5,7 @@
     <groupId>learn</groupId>
     <artifactId>algorithm</artifactId>
     <version>1.0</version>
-    <!--<packaging>jar</packaging>-->
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
