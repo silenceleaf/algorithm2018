@@ -11,16 +11,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 /**
  * Created by Junyan Zhang on 12/14/2017.
  */
 public class Main {
     private static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-    private static Logger logger = Logger.getLogger(Main.class.getCanonicalName());
+    private static Logger logger;
 
     public static void main(String[] args) {
+        logger = setupLogger();
+
         Class<Runnable> latestAppClass = scanRunnableClasses("org.zjy.learn.code");
         if (latestAppClass == null) {
             logger.warning("no runnable class found!");
@@ -36,6 +38,26 @@ public class Main {
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
+    }
+
+    private static Logger setupLogger() {
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setFormatter(new SimpleFormatter() {
+            private static final String format = "[%1$tF %1$tT] [%2$s] %3$s %n";
+
+            @Override
+            public synchronized String format(LogRecord lr) {
+                return String.format(format,
+                        new Date(lr.getMillis()),
+                        lr.getLevel().getLocalizedName(),
+                        lr.getMessage()
+                );
+            }
+        });
+        Logger mainLogger = Logger.getLogger("algorithm_lean");
+        mainLogger.setUseParentHandlers(false);
+        mainLogger.addHandler(handler);
+        return mainLogger;
     }
 
     @SuppressWarnings("unchecked")
