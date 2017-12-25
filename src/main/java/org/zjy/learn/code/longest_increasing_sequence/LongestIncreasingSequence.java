@@ -15,11 +15,15 @@ public class LongestIncreasingSequence {
         int max_ans=1;
         for (int i=1; i<nums.length; i++)
         {
-            for (int j=0; j<i; j++)
-                if (nums[j]<nums[i] && dp[j]+1>dp[i]) {
-                    dp[i]=dp[j]+1;
-                    ans[i]=ans[j];
+            for (int j=0; j<i; j++) {
+                if (nums[j] < nums[i] && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                    ans[i] = ans[j];
                 }
+                if (nums[j] < nums[i] && dp[j] + 1 == dp[i]) {
+                    ans[i] += ans[j];
+                }
+            }
             if (dp[i]>max_ans) {
                 max_ans=dp[i];
             }
