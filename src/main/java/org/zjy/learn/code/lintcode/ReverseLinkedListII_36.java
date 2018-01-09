@@ -9,6 +9,9 @@ import java.util.logging.Logger;
 public class ReverseLinkedListII_36 implements Runnable {
     private Logger logger = LogManager.getLogManager().getLogger("algorithm_lean");
 
+    /**
+     * lintcode passed
+     */
     @Override
     public void run() {
         // 3760->2881->7595->3904->5069->4421->8560->8879->8488->5040->5792->56->1007->2270->3403->6062->null
@@ -18,15 +21,16 @@ public class ReverseLinkedListII_36 implements Runnable {
         ListNode node3 = new ListNode(3904);
         ListNode node4 = new ListNode(5069);
         ListNode node5 = new ListNode(4421);
-        ListNode node6 = new ListNode(8879);
-        ListNode node7 = new ListNode(8488);
-        ListNode node8 = new ListNode(5040);
-        ListNode node9 = new ListNode(5792);
-        ListNode node10 = new ListNode(56);
-        ListNode node11 = new ListNode(1007);
-        ListNode node12 = new ListNode(2270);
-        ListNode node13 = new ListNode(3403);
-        ListNode node14 = new ListNode(6062);
+        ListNode node6 = new ListNode(8560);
+        ListNode node7 = new ListNode(8879);
+        ListNode node8 = new ListNode(8488);
+        ListNode node9 = new ListNode(5040);
+        ListNode node10 = new ListNode(5792);
+        ListNode node11 = new ListNode(56);
+        ListNode node12 = new ListNode(1007);
+        ListNode node13 = new ListNode(2270);
+        ListNode node14 = new ListNode(3403);
+        ListNode node15 = new ListNode(6062);
         head.next = node1;
         node1.next = node2;
         node2.next = node3;
@@ -41,7 +45,7 @@ public class ReverseLinkedListII_36 implements Runnable {
         node11.next = node12;
         node12.next = node13;
         node13.next = node14;
-        node14.next = null;
+        node14.next = node15;
 
         output(head);
         ListNode newHead = reverseBetween(head, 2, 7);
@@ -90,7 +94,6 @@ public class ReverseLinkedListII_36 implements Runnable {
             beginIndex++;
             endIndex--;
         }
-
         return dummyHead.next;
     }
 
