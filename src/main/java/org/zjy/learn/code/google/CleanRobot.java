@@ -47,7 +47,7 @@ public class CleanRobot implements Runnable {
             dfs(robot, room, failure, current);
         } else {
             room[next[0]][next[1]] = 1;
-            Util.printMatrix(room);
+            //Util.printMatrix(room);
             failure = 0;
             dfs(robot, room, failure, next);
         }
