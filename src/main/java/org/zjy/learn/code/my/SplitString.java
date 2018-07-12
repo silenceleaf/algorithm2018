@@ -10,12 +10,12 @@ import java.util.List;
  * Created by junyan zhang on 6/16/18.
  */
 
-@Application(time = "06/16/2018 12:25")
+@Application(time = "06/16/2018 13:25")
 public class SplitString implements Runnable {
 	@Override
 	public void run() {
 		List<List<String>> result = new ArrayList<>();
-		backtracking(result, new ArrayList<>(), "123456");
+		backtracking(result, new ArrayList<>(), "12345678");
 		Util.printList(result);
 	}
 
