@@ -1,3 +1,7 @@
+package org.zjy.learn.code.amazon;
+
+import java.util.Arrays;
+
 public class ReorderLogFiles {
 	public String[] reorderLogFiles(String[] logs) {
         Arrays.sort(logs, (a, b) -> {

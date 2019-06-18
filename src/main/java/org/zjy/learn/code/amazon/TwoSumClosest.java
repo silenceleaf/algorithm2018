@@ -3,10 +3,11 @@ package org.zjy.learn.code.amazon;
 import org.zjy.learn.util.Application;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
-@Application(time = "06/17/2019 13:00")
+@Application(time = "06/17/2019 22:08")
 public class TwoSumClosest implements Runnable {
     /**
      * two sum closest
@@ -16,11 +17,78 @@ public class TwoSumClosest implements Runnable {
      */
     @Override
     public void run() {
-        List<Integer[]> result1 = twoSumClosest(new int[][]{{1, 3}, {2, 4}, {3, 1}, {4, 2}}, new int[][]{{5, 3}, {6, 4}}, 8);
-        for (Integer[] pair : result1) {
-            System.out.println(pair[0] + "  " + pair[1]);
-        }
+//        List<Integer[]> result1 = twoSumClosest(new int[][]{{1, 3}, {2, 4}, {3, 1}, {4, 2}}, new int[][]{{5, 3}, {6, 4}}, 8);
+//        for (Integer[] pair : result1) {
+//            System.out.println(pair[0] + "  " + pair[1]);
+//        }
 
+        int deviceCapacity1 = 20;
+        List<List<Integer>> foreground1 = new ArrayList<>();
+        foreground1.add(Arrays.asList(1, 8));
+        foreground1.add(Arrays.asList(2, 7));
+        foreground1.add(Arrays.asList(3, 14));
+        List<List<Integer>> background1 = new ArrayList<>();
+        background1.add(Arrays.asList(1, 5));
+        background1.add(Arrays.asList(2, 10));
+        background1.add(Arrays.asList(3, 14));
+        // expect: 3 1
+
+        int deviceCapacity2 = 20;
+        List<List<Integer>> foreground2 = new ArrayList<>();
+        foreground2.add(Arrays.asList(1, 8));
+        foreground2.add(Arrays.asList(2, 15));
+        foreground2.add(Arrays.asList(3, 9));
+        List<List<Integer>> background2 = new ArrayList<>();
+        background2.add(Arrays.asList(1, 8));
+        background2.add(Arrays.asList(2, 11));
+        background2.add(Arrays.asList(3, 12));
+        // expect:
+        // 1 3
+        // 3 2
+
+        System.out.println("1:");
+        output(optimalUtilization(deviceCapacity1, foreground1, background1));
+        System.out.println("2:");
+        output(optimalUtilization(deviceCapacity2, foreground2, background2));
+    }
+
+    private List<List<Integer>> optimalUtilization(
+            int deviceCapacity,
+            List<List<Integer>> foregroundAppList,
+            List<List<Integer>> backgroundAppList)
+    {
+        // WRITE YOUR CODE HERE
+        TreeMap<Integer, List<Integer>> tree = new TreeMap<>();
+        for (List<Integer> pair : backgroundAppList) {
+            List<Integer> list = tree.getOrDefault(pair.get(1), new ArrayList<>());
+            list.add(pair.get(0));
+            tree.put(pair.get(1), list);
+        }
+        TreeMap<Integer, List<List<Integer>>> result = new TreeMap<>();
+        for (List<Integer> pair : foregroundAppList) {
+            Integer floorKey = tree.floorKey(deviceCapacity - pair.get(1));
+            if (floorKey != null) {
+                int diff = Math.abs(deviceCapacity - pair.get(1) - floorKey);
+                List<List<Integer>> list = result.getOrDefault(diff, new ArrayList<>());
+                for (int id : tree.get(floorKey)) {
+                    List<Integer> match = new ArrayList<>();
+                    match.add(pair.get(0));
+                    match.add(id);
+                    list.add(match);
+                }
+                result.put(diff, list);
+            }
+        }
+        return result.get(result.firstKey());
+    }
+
+    private void output(List<List<Integer>> matrix) {
+        for (List<Integer> row : matrix) {
+            for (int col : row) {
+                System.out.print(col + " ");
+            }
+            System.out.println();
+        }
     }
 
     /**

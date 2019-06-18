@@ -14,6 +14,6 @@ public class FindSongs implements Runnable {
     }
 
     private int[] findSongs(int[] songs) {
-
+        return null;
     }
 }
