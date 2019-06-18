@@ -64,22 +64,26 @@ public class TwoSumClosest implements Runnable {
             list.add(pair.get(0));
             tree.put(pair.get(1), list);
         }
-        TreeMap<Integer, List<List<Integer>>> result = new TreeMap<>();
+        int diff = Integer.MAX_VALUE;
+        List<List<Integer>> result = new ArrayList<>();
         for (List<Integer> pair : foregroundAppList) {
             Integer floorKey = tree.floorKey(deviceCapacity - pair.get(1));
             if (floorKey != null) {
-                int diff = Math.abs(deviceCapacity - pair.get(1) - floorKey);
-                List<List<Integer>> list = result.getOrDefault(diff, new ArrayList<>());
+                if (Math.abs(deviceCapacity - pair.get(1) - floorKey) < diff) {
+                    result.clear();
+                    diff = Math.abs(deviceCapacity - pair.get(1) - floorKey);
+                } else if (Math.abs(deviceCapacity - pair.get(1) - floorKey) > diff) {
+                    continue;
+                }
                 for (int id : tree.get(floorKey)) {
                     List<Integer> match = new ArrayList<>();
                     match.add(pair.get(0));
                     match.add(id);
-                    list.add(match);
+                    result.add(match);
                 }
-                result.put(diff, list);
             }
         }
-        return result.get(result.firstKey());
+        return result;
     }
 
     private void output(List<List<Integer>> matrix) {
